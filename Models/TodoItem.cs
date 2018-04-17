@@ -11,5 +11,7 @@ namespace AspNetCoreTodo.Models
         public string Title { get; set; }
 
         public DateTimeOffset? DueAt { get; set; }
+
+        public string OwnerId { get; set; }
     }
 }

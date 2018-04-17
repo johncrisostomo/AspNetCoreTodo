@@ -17,10 +17,10 @@ namespace AspNetCoreTodo.Services
             _context = context;
         }
 
-        public async Task<IEnumerable<TodoItem>> GetIncompleteItemsAsync() 
+        public async Task<IEnumerable<TodoItem>> GetIncompleteItemsAsync(ApplicationUser user) 
         {
             return  await _context.Items
-                .Where(x => x.IsDone == false)
+                .Where(x => x.IsDone == false && x.OwnerId == user.Id)
                 .ToArrayAsync();
         }
 
