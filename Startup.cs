@@ -23,7 +23,6 @@ namespace AspNetCoreTodo
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -33,15 +32,20 @@ namespace AspNetCoreTodo
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
 
             services.AddScoped<ITodoItemService, TodoItemService>();
-        }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            services
+                .AddAuthentication()
+                .AddFacebook(options => 
+                {
+                    options.AppId = Configuration["Facebook:AppId"];
+                    options.AppSecret = Configuration["Facebook:AppSecret"];
+                });
+        }
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
